@@ -1,0 +1,7 @@
+*.o
+*.a
+*.d
+*.map
+*.s
+*.bin
+./build_*Nucleo-F446ZE*
