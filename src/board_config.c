@@ -1,6 +1,6 @@
 /*
 
-Copyright 2011-2016 Tyler Gilbert
+Copyright 2011-2018 Tyler Gilbert
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
  */
+
 
 #include <sys/lock.h>
 #include <fcntl.h>
@@ -39,69 +40,88 @@ limitations under the License.
 #include "board_trace.h"
 #include "link_transport.h"
 
-#define SOS_BOARD_SYSTEM_CLOCK 120000000
-#define SOS_BOARD_SYSTEM_MEMORY_SIZE (8192*2)
+#define SOS_BOARD_SYSTEM_CLOCK 168000000
+#define SOS_BOARD_PERIPH_CLOCK (SOS_BOARD_SYSTEM_CLOCK/4)
+#define SOS_BOARD_SYSTEM_MEMORY_SIZE (8192*4)
 #define SOS_BOARD_TASK_TOTAL 10
 
 static void board_event_handler(int event, void * args);
 
+#define USB_RX_BUFFER_SIZE 512
+char usb_rx_buffer[USB_RX_BUFFER_SIZE] MCU_SYS_MEM;
+
 const mcu_board_config_t mcu_board_config = {
-		.core_osc_freq = 12000000,
+		.core_osc_freq = 8000000,
 		.core_cpu_freq = SOS_BOARD_SYSTEM_CLOCK,
 		.core_periph_freq = SOS_BOARD_SYSTEM_CLOCK,
 		.usb_max_packet_zero = MCU_CORE_USB_MAX_PACKET_ZERO_VALUE,
-		.debug_uart_port = 0,
+		.debug_uart_port = 2,
 		.debug_uart_attr = {
 				.pin_assignment =
 				{
-						.rx = {0, 2},
-						.tx = {0, 3},
+						.rx = {3, 9},
+						.tx = {3, 8},
 						.cts = {0xff, 0xff},
 						.rts = {0xff, 0xff}
 				},
 				.freq = 115200,
-				.o_flags = UART_FLAG_IS_PARITY_NONE | UART_FLAG_IS_STOP1,
+				.o_flags = UART_FLAG_SET_LINE_CODING | UART_FLAG_IS_PARITY_NONE | UART_FLAG_IS_STOP1,
 				.width = 8
 		},
-		.o_flags = 0,
+		.o_flags = MCU_BOARD_CONFIG_FLAG_LED_ACTIVE_HIGH,
 		.event_handler = board_event_handler,
-		.led.port = 1, .led.pin = 18
+		.led.port = 1, .led.pin = 7,
+		.usb_rx_buffer = usb_rx_buffer,
+		.usb_rx_buffer_size = USB_RX_BUFFER_SIZE
 };
 
-
 void board_event_handler(int event, void * args){
+	core_info_t * info = (core_info_t*)args;
 	switch(event){
+	case MCU_BOARD_CONFIG_EVENT_ROOT_TASK_INIT:
+		break;
+
 	case MCU_BOARD_CONFIG_EVENT_ROOT_FATAL:
 		//start the bootloader on a fatal event
-		mcu_core_invokebootloader(0, 0);
-
+		//mcu_core_invokebootloader(0, 0);
+		if( args != 0 ){
+			mcu_debug_printf("Fatal Error %s\n", (const char*)args);
+		} else {
+			mcu_debug_printf("Fatal Error unknown\n");
+		}
+		while(1){
+			;
+		}
 		break;
+
+	case MCU_BOARD_CONFIG_EVENT_START_INIT:
+		mcu_debug_user_printf("Start 0x%lX\n", info->o_flags);
+		break;
+
 	case MCU_BOARD_CONFIG_EVENT_START_LINK:
-		mcu_debug_user_printf("Start LED\n");
+		mcu_debug_user_printf("Start LED %d\n", mcu_config.irq_middle_prio);
 		sos_led_startup();
 		break;
+
 	case MCU_BOARD_CONFIG_EVENT_START_FILESYSTEM:
 		mcu_debug_user_printf("Started %ld apps\n", *((u32*)args));
 		break;
 	}
 }
 
-
 const sos_board_config_t sos_board_config = {
-		.clk_usecond_tmr = 3,
+		.clk_usecond_tmr = 1, //TIM2 -- 32 bit timer
 		.task_total = SOS_BOARD_TASK_TOTAL,
 		.stdin_dev = "/dev/stdio-in" ,
 		.stdout_dev = "/dev/stdio-out",
 		.stderr_dev = "/dev/stdio-out",
 		.o_sys_flags = SYS_FLAG_IS_STDIO_FIFO | SYS_FLAG_IS_TRACE,
-		.sys_name = "Stratify Alpha",
-		.sys_version = "1.5",
-		.sys_id = "-KZKdVwMXIj6vTVsbX56",
+		.sys_name = "Nucleo-F446ZE",
+		.sys_version = "0.1",
+		.sys_id = "",
 		.sys_memory_size = SOS_BOARD_SYSTEM_MEMORY_SIZE,
-		//.start = sos_default_thread,
-		.start = 0,
-		//.start_args = &link_transport,
-		.start_args = 0,
+		.start = sos_default_thread,
+		.start_args = &link_transport,
 		.start_stack_size = SOS_DEFAULT_START_STACK_SIZE,
 		.socket_api = 0,
 		.request = 0,
@@ -113,33 +133,6 @@ volatile sched_task_t sos_sched_table[SOS_BOARD_TASK_TOTAL] MCU_SYS_MEM;
 task_t sos_task_table[SOS_BOARD_TASK_TOTAL] MCU_SYS_MEM;
 
 #define USER_ROOT 0
-
-/* This is the state information for the sst25vf flash IC driver.
- *
- */
-sst25vf_state_t sst25vf_state MCU_SYS_MEM;
-
-/* This is the configuration specific structure for the sst25vf
- * flash IC driver.
- */
-//const sst25vf_cfg_t sst25vf_cfg = SST25VF_DEVICE_CFG(0, 6, -1, 0, -1, 0, 0, 8, 2*1024*1024, 10000000);
-const sst25vf_config_t sst25vf_cfg = {
-		.spi.attr = {
-				.o_flags = SPI_FLAG_SET_MASTER | SPI_FLAG_IS_MODE0 | SPI_FLAG_IS_FORMAT_SPI,
-				.freq = 16000000,
-				.width = 8,
-				.pin_assignment = {
-						.miso = {0,8},
-						.mosi = {0,9},
-						.sck = {0,7},
-						.cs = {0xff,0xff}
-				},
-		},
-		.cs  = {0,6},
-		.hold  = {0xff,0xff},
-		.wp  = {0xff,0xff},
-		.size = 2*1024*1024
-};
 
 #define UART0_DEVFIFO_BUFFER_SIZE 1024
 char uart0_fifo_buffer[UART0_DEVFIFO_BUFFER_SIZE];
@@ -175,7 +168,6 @@ const uartfifo_config_t uart3_fifo_cfg = {
 		.fifo = { .size = UART3_DEVFIFO_BUFFER_SIZE, .buffer = uart3_fifo_buffer }
 };
 uartfifo_state_t uart3_fifo_state MCU_SYS_MEM;
-
 
 #define STDIO_BUFFER_SIZE 128
 
@@ -244,6 +236,7 @@ mcfifo_state_t board_stream_state = {
 		.fifo_state_array = board_stream_state_fifo_array
 };
 
+
 /* This is the list of devices that will show up in the /dev folder
  * automatically.  By default, the peripheral devices for the MCU are available
  * plus some devices on the board.
@@ -252,6 +245,7 @@ const devfs_device_t devfs_list[] = {
 		//mcu peripherals
 		DEVFS_DEVICE("trace", ffifo, 0, &board_trace_config, &board_trace_state, 0666, USER_ROOT, S_IFCHR),
 		DEVFS_DEVICE("multistream", mcfifo, 0, &board_stream_config, &board_stream_state, 0666, USER_ROOT, S_IFCHR),
+		DEVFS_DEVICE("tmr1", mcu_tmr, 1, 0, 0, 0666, USER_ROOT, S_IFCHR),
 		/*
 		DEVFS_DEVICE("core", mcu_core, 0, 0, 0, 0666, USER_ROOT, S_IFCHR),
 		DEVFS_DEVICE("core0", mcu_core, 0, 0, 0, 0666, USER_ROOT, S_IFCHR),
@@ -286,17 +280,17 @@ const devfs_device_t devfs_list[] = {
 		//DEVFS_DEVICE("uart3", uartfifo, 3, &uart3_fifo_cfg, &uart3_fifo_state, 0666, USER_ROOT, S_IFCHR),
 		DEVFS_DEVICE("usb0", mcu_usb, 0, 0, 0, 0666, USER_ROOT, S_IFCHR),
 
-		//board devices
-		DEVFS_DEVICE("drive0", sst25vf_ssp, 1, &sst25vf_cfg, &sst25vf_state, 0666, USER_ROOT, S_IFBLK),
-
 		//FIFO buffers used for std in and std out
+
+		 */
 		DEVFS_DEVICE("stdio-out", fifo, 0, &stdio_out_cfg, &stdio_out_state, 0666, USER_ROOT, S_IFCHR),
 		DEVFS_DEVICE("stdio-in", fifo, 0, &stdio_in_cfg, &stdio_in_state, 0666, USER_ROOT, S_IFCHR),
+
 
 		//system devices
 		DEVFS_DEVICE("link-phy-usb", usbfifo, 0, &sos_link_transport_usb_fifo_cfg, &sos_link_transport_usb_fifo_state, 0666, USER_ROOT, S_IFCHR),
 
-*/
+
 		DEVFS_DEVICE("sys", sys, 0, 0, 0, 0666, USER_ROOT, S_IFCHR),
 
 
@@ -314,7 +308,6 @@ const sffs_config_t sffs_cfg = {
 		.name = "drive0",
 		.state = &sffs_state
 };
-
 
 #if 0
 //This is the setup code if you want to use a FAT filesystem (like on an SD card)

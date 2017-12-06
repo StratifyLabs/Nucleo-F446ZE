@@ -174,12 +174,13 @@
 								<option id="gnu.c.link.option.libs.1717319848" name="Libraries (-l)" superClass="gnu.c.link.option.libs" useByScannerDiscovery="false" valueType="libs">
 									<listOptionValue builtIn="false" value="sos_sys${BUILD_TYPE}"/>
 									<listOptionValue builtIn="false" value="son_kernel"/>
-									<listOptionValue builtIn="false" value="sgfx_kernel_p1"/>
+									<listOptionValue builtIn="false" value="sgfx_kernel_1bpp"/>
 									<listOptionValue builtIn="false" value="lwip_kernel"/>
 									<listOptionValue builtIn="false" value="sos_mcu_${BUILD_DEVICE}${BUILD_TYPE}"/>
 									<listOptionValue builtIn="false" value="m"/>
 									<listOptionValue builtIn="false" value="c"/>
 									<listOptionValue builtIn="false" value="sos_sys${BUILD_TYPE}"/>
+									<listOptionValue builtIn="false" value="sos_mcu_${BUILD_DEVICE}${BUILD_TYPE}"/>
 									<listOptionValue builtIn="false" value="gcc-hard"/>
 								</option>
 								<option id="gnu.c.link.option.paths.869953059" name="Library search path (-L)" superClass="gnu.c.link.option.paths" valueType="libPaths">
