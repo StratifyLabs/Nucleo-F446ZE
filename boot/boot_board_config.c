@@ -54,22 +54,21 @@ const mcu_board_config_t mcu_board_config = {
 				.width = 8
 		},
 		.o_flags = MCU_BOARD_CONFIG_FLAG_LED_ACTIVE_HIGH,
-		.led.port = 1, .led.pin = 7,
+		.led = {1, 7},
 		.event_handler = 0,
 		.usb_rx_buffer = usb_rx_buffer,
 		.usb_rx_buffer_size = USB_RX_BUFFER_SIZE
 };
 
 const bootloader_board_config_t boot_board_config = {
-		.sw_req_loc = 0x10002000,
+		.sw_req_loc = 0x20004000,
 		.sw_req_value = 0x55AA55AA,
 		.program_start_addr = 0x40000 + (u32)&_flash_start,
-		.hw_req.port = 0, .hw_req.pin = 1,
-		.o_flags = 0,
+		.hw_req = {2, 13}, //PC13
+		.o_flags = BOOT_BOARD_CONFIG_FLAG_HW_REQ_ACTIVE_HIGH,
 		.link_transport_driver = &link_transport,
 		.id = __HARDWARE_ID,
 };
-
 
 extern void boot_main();
 

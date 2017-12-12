@@ -40,10 +40,12 @@ limitations under the License.
 #include "board_trace.h"
 #include "link_transport.h"
 
+
 #define SOS_BOARD_SYSTEM_CLOCK 168000000
 #define SOS_BOARD_PERIPH_CLOCK (SOS_BOARD_SYSTEM_CLOCK/4)
-#define SOS_BOARD_SYSTEM_MEMORY_SIZE (8192*4)
+#define SOS_BOARD_SYSTEM_MEMORY_SIZE (8192*3)
 #define SOS_BOARD_TASK_TOTAL 10
+
 
 static void board_event_handler(int event, void * args);
 
@@ -290,6 +292,7 @@ const devfs_device_t devfs_list[] = {
 
 		DEVFS_TERMINATOR
 };
+
 
 //this is the data needed for the stratify flash file system (wear-aware file system)
 extern const sffs_config_t sffs_cfg;

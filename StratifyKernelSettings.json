@@ -1,5 +1,5 @@
 {
-    "LocalBuild": "build_release",
+    "LocalBuild": "build_debug",
     "LocalIsFormatHome": false,
     "LocalIsInstallData": false,
     "LocalIsRunTests": false,
