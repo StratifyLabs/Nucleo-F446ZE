@@ -24,38 +24,46 @@ limitations under the License.
 #include "link_transport.h"
 #include "board_config.h"
 
-const u32 mcu_crp_value __attribute__ ((section(".crp_section"))) = 0x87654321;
+extern u32 _flash_start;
 
-#define STFY_SYSTEM_CLOCK 60000000
-#define STFY_SYSTEM_OSC 12000000
+const struct __sFILE_fake __sf_fake_stdin;
+const struct __sFILE_fake __sf_fake_stdout;
+const struct __sFILE_fake __sf_fake_stderr;
+
+#define STFY_SYSTEM_CLOCK 168000000
+
+#define USB_RX_BUFFER_SIZE 512
+char usb_rx_buffer[USB_RX_BUFFER_SIZE] MCU_SYS_MEM;
 
 const mcu_board_config_t mcu_board_config = {
-		.core_osc_freq = STFY_SYSTEM_OSC,
+		.core_osc_freq = 8000000,
 		.core_cpu_freq = STFY_SYSTEM_CLOCK,
 		.core_periph_freq = STFY_SYSTEM_CLOCK,
 		.usb_max_packet_zero = MCU_CORE_USB_MAX_PACKET_ZERO_VALUE,
-		.debug_uart_port = 0,
+		.debug_uart_port = 2,
 		.debug_uart_attr = {
 				.pin_assignment =
 				{
-						.rx = {0, 2},
-						.tx = {0, 3},
+						.rx = {3, 9},
+						.tx = {3, 8},
 						.cts = {0xff, 0xff},
 						.rts = {0xff, 0xff}
 				},
 				.freq = 115200,
-				.o_flags = UART_FLAG_IS_PARITY_NONE | UART_FLAG_IS_STOP1,
+				.o_flags = UART_FLAG_SET_LINE_CODING | UART_FLAG_IS_PARITY_NONE | UART_FLAG_IS_STOP1,
 				.width = 8
 		},
-		.o_flags = 0,
-		.led.port = 1, .led.pin = 18,
-		.event_handler = 0
+		.o_flags = MCU_BOARD_CONFIG_FLAG_LED_ACTIVE_HIGH,
+		.led.port = 1, .led.pin = 7,
+		.event_handler = 0,
+		.usb_rx_buffer = usb_rx_buffer,
+		.usb_rx_buffer_size = USB_RX_BUFFER_SIZE
 };
 
 const bootloader_board_config_t boot_board_config = {
 		.sw_req_loc = 0x10002000,
 		.sw_req_value = 0x55AA55AA,
-		.program_start_addr = 0x40000,
+		.program_start_addr = 0x40000 + (u32)&_flash_start,
 		.hw_req.port = 0, .hw_req.pin = 1,
 		.o_flags = 0,
 		.link_transport_driver = &link_transport,

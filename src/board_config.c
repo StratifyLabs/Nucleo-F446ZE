@@ -130,7 +130,8 @@ const sos_board_config_t sos_board_config = {
 };
 
 volatile sched_task_t sos_sched_table[SOS_BOARD_TASK_TOTAL] MCU_SYS_MEM;
-task_t sos_task_table[SOS_BOARD_TASK_TOTAL] MCU_SYS_MEM;
+volatile task_t sos_task_table[SOS_BOARD_TASK_TOTAL] MCU_SYS_MEM;
+
 
 #define USER_ROOT 0
 
@@ -201,7 +202,8 @@ const i2c_config_t i2c2_config = {
 		}
 };
 
-#define STREAM_COUNT 16
+
+#define STREAM_COUNT 8
 #define STREAM_SIZE 128
 #define STREAM_BUFFER_SIZE (STREAM_SIZE*STREAM_COUNT)
 static char stream_buffer[STREAM_COUNT][STREAM_SIZE];
@@ -214,15 +216,7 @@ const fifo_config_t board_stream_config_fifo_array[STREAM_COUNT] = {
 		{ .size = STREAM_SIZE, .buffer = stream_buffer[4] },
 		{ .size = STREAM_SIZE, .buffer = stream_buffer[5] },
 		{ .size = STREAM_SIZE, .buffer = stream_buffer[6] },
-		{ .size = STREAM_SIZE, .buffer = stream_buffer[7] },
-		{ .size = STREAM_SIZE, .buffer = stream_buffer[8] },
-		{ .size = STREAM_SIZE, .buffer = stream_buffer[9] },
-		{ .size = STREAM_SIZE, .buffer = stream_buffer[10] },
-		{ .size = STREAM_SIZE, .buffer = stream_buffer[11] },
-		{ .size = STREAM_SIZE, .buffer = stream_buffer[12] },
-		{ .size = STREAM_SIZE, .buffer = stream_buffer[13] },
-		{ .size = STREAM_SIZE, .buffer = stream_buffer[14] },
-		{ .size = STREAM_SIZE, .buffer = stream_buffer[15] },
+		{ .size = STREAM_SIZE, .buffer = stream_buffer[7] }
 };
 
 const mcfifo_config_t board_stream_config = {
@@ -231,11 +225,11 @@ const mcfifo_config_t board_stream_config = {
 		.fifo_config_array = board_stream_config_fifo_array
 };
 
+
 fifo_state_t board_stream_state_fifo_array[STREAM_COUNT];
 mcfifo_state_t board_stream_state = {
 		.fifo_state_array = board_stream_state_fifo_array
 };
-
 
 /* This is the list of devices that will show up in the /dev folder
  * automatically.  By default, the peripheral devices for the MCU are available
@@ -246,9 +240,9 @@ const devfs_device_t devfs_list[] = {
 		DEVFS_DEVICE("trace", ffifo, 0, &board_trace_config, &board_trace_state, 0666, USER_ROOT, S_IFCHR),
 		DEVFS_DEVICE("multistream", mcfifo, 0, &board_stream_config, &board_stream_state, 0666, USER_ROOT, S_IFCHR),
 		DEVFS_DEVICE("tmr1", mcu_tmr, 1, 0, 0, 0666, USER_ROOT, S_IFCHR),
-		/*
 		DEVFS_DEVICE("core", mcu_core, 0, 0, 0, 0666, USER_ROOT, S_IFCHR),
 		DEVFS_DEVICE("core0", mcu_core, 0, 0, 0, 0666, USER_ROOT, S_IFCHR),
+		/*
 		DEVFS_DEVICE("adc0", mcu_adc, 0, 0, 0, 0666, USER_ROOT, S_IFCHR),
 		DEVFS_DEVICE("dac0", mcu_dac, 0, 0, 0, 0666, USER_ROOT, S_IFCHR),
 		DEVFS_DEVICE("eint0", mcu_eint, 0, 0, 0, 0666, USER_ROOT, S_IFCHR),
@@ -324,11 +318,11 @@ const fatfs_cfg_t fatfs_cfg = {
 };
 #endif
 
-//const devfs_device_t mem0 = DEVFS_DEVICE("mem0", mcu_mem, 0, 0, 0, 0666, USER_ROOT, S_IFBLK);
+const devfs_device_t mem0 = DEVFS_DEVICE("mem0", mcu_mem, 0, 0, 0, 0666, USER_ROOT, S_IFBLK);
 
 
 const sysfs_t const sysfs_list[] = {
-		//APPFS_MOUNT("/app", &mem0, SYSFS_ALL_ACCESS), //the folder for ram/flash applications
+		APPFS_MOUNT("/app", &mem0, SYSFS_ALL_ACCESS), //the folder for ram/flash applications
 		DEVFS_MOUNT("/dev", devfs_list, SYSFS_READONLY_ACCESS), //the list of devices
 		//SFFS_MOUNT("/home", &sffs_cfg, SYSFS_ALL_ACCESS), //the stratify file system on external RAM
 		//FATFS("/home", &fatfs_cfg, SYSFS_ALL_ACCESS), //fat filesystem with external SD card

@@ -25,6 +25,7 @@ limitations under the License.
 #define SYMBOLS_IGNORE_LWIP 1
 #define SYMBOLS_IGNORE_SOCKET 1
 
+#if 0
 #define SYMBOLS_IGNORE_MATH_F 1
 #define SYMBOLS_IGNORE_DOUBLE 1
 #define SYMBOLS_IGNORE_STDIO_FILE 1
@@ -36,5 +37,6 @@ limitations under the License.
 #define SYMBOLS_IGNORE_STR 1
 #define SYMBOLS_IGNORE_SEM 1
 #define SYMBOLS_IGNORE_MQ 1
+#endif
 
 #include <sos/symbols/table.h>

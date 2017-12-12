@@ -4,21 +4,19 @@
     "LocalIsInstallData": false,
     "LocalIsRunTests": false,
     "LocalIsVerify": false,
-    "LocalProjectId": "-KZKdVwMXIj6vTVsbX56",
+    "LocalProjectId": "",
     "bootsuffix": "_boot",
     "buildprefix": "build_",
     "changes": {
-        "1.0": "Initial release",
-        "1.1": "Updated kernel",
-        "1.2": "Fixed Issue where closing port takes a long time"
+        "0.1": "Experiental build"
     },
-    "description": "Stratify Alpha is a development board featuring the LPC4078 ARM Cortex M4 microcontroller and 8MB flash file system.",
-    "github": "https://github.com/StratifyLabs/StratifyAlpha",
-    "hardwareid": "0x0000000A",
-    "name": "StratifyAlpha",
+    "description": ".",
+    "github": "https://github.com/StratifyLabs/Nucleo-F446ZE",
+    "hardwareid": "0x00000008",
+    "name": "Nucleo-F446ZE",
     "permissions": "public",
     "publisher": "Stratify Labs, Inc",
-    "tags": "nxp,lpc,lpc40xx,lpc4078,arm,cortex-m4",
+    "tags": "nxp,stm32,arm,cortex-m4",
     "type": "StratifyKernel",
-    "version": "1.3"
+    "version": "0.1"
 }

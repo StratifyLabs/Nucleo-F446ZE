@@ -11,7 +11,7 @@
 					<stringMacro name="TOOLSPATH_win32" type="VALUE_TEXT" value="C:\StratifyLabs-SDK\Tools\gcc"/>
 					<stringMacro name="POSTPROCESS_win64" type="VALUE_TEXT" value="${POSTPROCESS_win32}"/>
 					<stringMacro name="START_ADDR" type="VALUE_TEXT" value="0x40000"/>
-					<stringMacro name="HARDWARE_ID" type="VALUE_TEXT" value="0x0000000A"/>
+					<stringMacro name="HARDWARE_ID" type="VALUE_TEXT" value="0x00000008"/>
 					<stringMacro name="SL" type="VALUE_TEXT" value="${DirectoryDelimiter}"/>
 					<stringMacro name="POSTPROCESS_linux" type="VALUE_TEXT" value="${POSTPROCESS_macosx}"/>
 					<stringMacro name="BUILD_DEVICE" type="VALUE_TEXT" value="stm32f446xx"/>
@@ -113,8 +113,8 @@
 					<stringMacro name="RM_win32" type="VALUE_TEXT" value="../script/clean.bat"/>
 					<stringMacro name="TOOLSPATH_win32" type="VALUE_TEXT" value="C:\StratifyLabs-SDK\Tools\gcc"/>
 					<stringMacro name="POSTPROCESS_win64" type="VALUE_TEXT" value="${POSTPROCESS_win32}"/>
-					<stringMacro name="START_ADDR" type="VALUE_TEXT" value="0x08000000"/>
-					<stringMacro name="HARDWARE_ID" type="VALUE_TEXT" value="0x0000000A"/>
+					<stringMacro name="START_ADDR" type="VALUE_TEXT" value="0x08040000"/>
+					<stringMacro name="HARDWARE_ID" type="VALUE_TEXT" value="0x00000008"/>
 					<stringMacro name="POSTPROCESS_linux" type="VALUE_TEXT" value="${POSTPROCESS_macosx}"/>
 					<stringMacro name="BUILD_DEVICE" type="VALUE_TEXT" value="stm32f446xx"/>
 					<stringMacro name="POSTPROCESS" type="VALUE_TEXT" value="${POSTPROCESS_${OsType}}"/>
@@ -215,8 +215,8 @@
 					<stringMacro name="RM_win32" type="VALUE_TEXT" value="../script/clean.bat"/>
 					<stringMacro name="TOOLSPATH_win32" type="VALUE_TEXT" value="C:\StratifyLabs-SDK\Tools\gcc"/>
 					<stringMacro name="POSTPROCESS_win64" type="VALUE_TEXT" value="${POSTPROCESS_win32}"/>
-					<stringMacro name="START_ADDR" type="VALUE_TEXT" value="0"/>
-					<stringMacro name="HARDWARE_ID" type="VALUE_TEXT" value="0x0000000A"/>
+					<stringMacro name="START_ADDR" type="VALUE_TEXT" value="0x08000000"/>
+					<stringMacro name="HARDWARE_ID" type="VALUE_TEXT" value="0x00000008"/>
 					<stringMacro name="POSTPROCESS_linux" type="VALUE_TEXT" value="${POSTPROCESS_macosx}"/>
 					<stringMacro name="BUILD_DEVICE" type="VALUE_TEXT" value="stm32f446xx"/>
 					<stringMacro name="POSTPROCESS" type="VALUE_TEXT" value="${POSTPROCESS_${OsType}}"/>
@@ -273,7 +273,7 @@
 								<option id="gnu.cpp.compiler.option.debugging.level.1482451739" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 							</tool>
 							<tool command="gcc" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" id="cdt.managedbuild.tool.gnu.cross.c.linker.1143852398" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker">
-								<option id="gnu.c.link.option.ldflags.451330801" name="Linker flags" superClass="gnu.c.link.option.ldflags" value="-Wl,-Map,fw.map,--gc -Ttext=${START_ADDR} -Tldscripts/${DEVICE}-rom.ld -nostdlib -u _main" valueType="string"/>
+								<option id="gnu.c.link.option.ldflags.451330801" name="Linker flags" superClass="gnu.c.link.option.ldflags" useByScannerDiscovery="false" value="-Wl,-Map,fw.map,--gc -Ttext=${START_ADDR} -Tldscripts/${DEVICE}-rom.ld -nostdlib -u _main -u mcu_core_vector_table" valueType="string"/>
 								<option id="gnu.c.link.option.libs.1538272481" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="sos_sys${BUILD_TYPE}"/>
 									<listOptionValue builtIn="false" value="sos_mcu_${BUILD_DEVICE}${BUILD_TYPE}"/>
@@ -315,7 +315,7 @@
 					<stringMacro name="TOOLSPATH_win32" type="VALUE_TEXT" value="C:\StratifyLabs-SDK\Tools\gcc"/>
 					<stringMacro name="POSTPROCESS_win64" type="VALUE_TEXT" value="${POSTPROCESS_win32}"/>
 					<stringMacro name="START_ADDR" type="VALUE_TEXT" value="0"/>
-					<stringMacro name="HARDWARE_ID" type="VALUE_TEXT" value="0x0000000A"/>
+					<stringMacro name="HARDWARE_ID" type="VALUE_TEXT" value="0x00000008"/>
 					<stringMacro name="POSTPROCESS_linux" type="VALUE_TEXT" value="${POSTPROCESS_macosx}"/>
 					<stringMacro name="BUILD_DEVICE" type="VALUE_TEXT" value="stm32f446xx"/>
 					<stringMacro name="POSTPROCESS" type="VALUE_TEXT" value="${POSTPROCESS_${OsType}}"/>

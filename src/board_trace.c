@@ -16,6 +16,7 @@ limitations under the License.
 
 */
 
+#include <string.h>
 #include <fcntl.h>
 #include <cortexm/task.h>
 #include <sos/link/types.h>
