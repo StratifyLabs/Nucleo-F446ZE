@@ -28,7 +28,7 @@ limitations under the License.
 #include <device/uartfifo.h>
 #include <device/usbfifo.h>
 #include <device/fifo.h>
-#include <device/mcfifo.h>
+#include <device/cfifo.h>
 #include <device/sys.h>
 #include <sos/link.h>
 #include <sos/fs/sysfs.h>
@@ -205,32 +205,28 @@ const i2c_config_t i2c2_config = {
 };
 
 
-#define STREAM_COUNT 8
-#define STREAM_SIZE 128
-#define STREAM_BUFFER_SIZE (STREAM_SIZE*STREAM_COUNT)
-static char stream_buffer[STREAM_COUNT][STREAM_SIZE];
+#define FIFO_COUNT 4
+#define FIFO_SIZE 256
+#define FIFO_BUFFER_SIZE (FIFO_SIZE*FIFO_COUNT)
+static char fifo_buffer[FIFO_COUNT][FIFO_SIZE];
 
-const fifo_config_t board_stream_config_fifo_array[STREAM_COUNT] = {
-		{ .size = STREAM_SIZE, .buffer = stream_buffer[0] },
-		{ .size = STREAM_SIZE, .buffer = stream_buffer[1] },
-		{ .size = STREAM_SIZE, .buffer = stream_buffer[2] },
-		{ .size = STREAM_SIZE, .buffer = stream_buffer[3] },
-		{ .size = STREAM_SIZE, .buffer = stream_buffer[4] },
-		{ .size = STREAM_SIZE, .buffer = stream_buffer[5] },
-		{ .size = STREAM_SIZE, .buffer = stream_buffer[6] },
-		{ .size = STREAM_SIZE, .buffer = stream_buffer[7] }
+const fifo_config_t board_fifo_config_fifo_array[FIFO_COUNT] = {
+		{ .size = FIFO_SIZE, .buffer = fifo_buffer[0] },
+		{ .size = FIFO_SIZE, .buffer = fifo_buffer[1] },
+		{ .size = FIFO_SIZE, .buffer = fifo_buffer[2] },
+		{ .size = FIFO_SIZE, .buffer = fifo_buffer[3] },
 };
 
-const mcfifo_config_t board_stream_config = {
-		.count = STREAM_COUNT,
-		.size = STREAM_SIZE,
-		.fifo_config_array = board_stream_config_fifo_array
+const cfifo_config_t board_fifo_config = {
+		.count = FIFO_COUNT,
+		.size = FIFO_SIZE,
+		.fifo_config_array = board_fifo_config_fifo_array
 };
 
 
-fifo_state_t board_stream_state_fifo_array[STREAM_COUNT];
-mcfifo_state_t board_stream_state = {
-		.fifo_state_array = board_stream_state_fifo_array
+fifo_state_t board_fifo_state_fifo_array[FIFO_COUNT];
+cfifo_state_t board_fifo_state = {
+		.fifo_state_array = board_fifo_state_fifo_array
 };
 
 /* This is the list of devices that will show up in the /dev folder
@@ -240,7 +236,7 @@ mcfifo_state_t board_stream_state = {
 const devfs_device_t devfs_list[] = {
 		//mcu peripherals
 		DEVFS_DEVICE("trace", ffifo, 0, &board_trace_config, &board_trace_state, 0666, USER_ROOT, S_IFCHR),
-		DEVFS_DEVICE("multistream", mcfifo, 0, &board_stream_config, &board_stream_state, 0666, USER_ROOT, S_IFCHR),
+		DEVFS_DEVICE("fifo", cfifo, 0, &board_fifo_config, &board_fifo_state, 0666, USER_ROOT, S_IFCHR),
 		DEVFS_DEVICE("tmr1", mcu_tmr, 1, 0, 0, 0666, USER_ROOT, S_IFCHR),
 		DEVFS_DEVICE("core", mcu_core, 0, 0, 0, 0666, USER_ROOT, S_IFCHR),
 		DEVFS_DEVICE("core0", mcu_core, 0, 0, 0, 0666, USER_ROOT, S_IFCHR),
