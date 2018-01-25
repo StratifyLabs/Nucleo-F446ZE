@@ -1,11 +1,15 @@
 {
     "bootsuffix": "_boot",
     "buildprefix": "build_",
-    "change": "Changing to new cloud format",
+    "change": "Publishing first bootloader and BSP",
     "changes": {
         "-L2TsyyyTIJlFu11lkA8": {
             "description": "Changing to new cloud format",
             "version": "0.2"
+        },
+        "-L36h7YLIkz4RN20ZCuj": {
+            "description": "Publishing first bootloader and BSP",
+            "version": "0.3"
         }
     },
     "description": "This BSP can be used to run Stratify OS on the STM32F Nucleo-F446ZE board.",
