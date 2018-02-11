@@ -4,7 +4,7 @@ This is the Stratify OS Board Support Package (BSP) for running Stratify OS on t
 
 ## Work to Do
 
-This is the first BSP for any STM32F device. As such there is much work to do in porting drivers over the the platform. Currently, all the necessary
+This is the first BSP for any STM32F device. As such there is much work to do in porting drivers over to the platform. Currently, all the necessary
 drivers needed to install the bootloader as well as run applications are working. The following is a (non-exhaustive) list of the drivers that need
 to be integrated:
 
@@ -18,17 +18,19 @@ Minimum Required for bootloader and Apps:
 
 Basic:
 
-- UART (partial)
-- SPI
-- I2C
+- ~~UART~~
+- ~~SPI~~
+- ~~I2C~~
+- EINT (External Interrupts)
 - ADC
 - DAC
 - RTC
 
 Advanced:
 
+- ~~I2S (SPI)~~
 - SDIO
-- I2S (SAI and SPI)
+- I2S (SAI)
 - DCMI
 - CAN
 - SPDIF

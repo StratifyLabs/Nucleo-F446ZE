@@ -52,6 +52,12 @@ link_transport_phy_t link_transport_open(const char * name, int baudrate){
 	usb_attr.pin_assignment.dm.port = 0;
 	usb_attr.pin_assignment.dm.pin = 12;
 	usb_attr.freq = mcu_board_config.core_osc_freq;
+    memset(usb_attr.tx_fifo_word_size, 0, USB_TX_FIFO_WORD_SIZE_COUNT);
+    usb_attr.rx_fifo_word_size = 128; //RX fifo for all endpoints
+    usb_attr.tx_fifo_word_size[0] = 32; //TX endpoint 0
+    usb_attr.tx_fifo_word_size[1] = 32; //TX endpoint 1
+    usb_attr.tx_fifo_word_size[2] = 32; //TX endpoint 2
+    usb_attr.tx_fifo_word_size[3] = 64; //TX endpoint 3
 	fd = boot_link_transport_usb_open(name,
 			&m_usb_control,
 			&sos_link_transport_usb_constants,

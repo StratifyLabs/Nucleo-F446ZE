@@ -40,7 +40,7 @@ const mcu_board_config_t mcu_board_config = {
 		.core_cpu_freq = STFY_SYSTEM_CLOCK,
 		.core_periph_freq = STFY_SYSTEM_CLOCK,
 		.usb_max_packet_zero = MCU_CORE_USB_MAX_PACKET_ZERO_VALUE,
-		.debug_uart_port = 2,
+        .debug_uart_port = 2, //USART3 - is connected to mbed console
 		.debug_uart_attr = {
 				.pin_assignment =
 				{
@@ -63,7 +63,7 @@ const mcu_board_config_t mcu_board_config = {
 const bootloader_board_config_t boot_board_config = {
 		.sw_req_loc = 0x20004000,
 		.sw_req_value = 0x55AA55AA,
-		.program_start_addr = 0x40000 + (u32)&_flash_start,
+        .program_start_addr = 0x40000 + (u32)&_flash_start, //flash start + 256KB
 		.hw_req = {2, 13}, //PC13
 		.o_flags = BOOT_BOARD_CONFIG_FLAG_HW_REQ_ACTIVE_HIGH,
 		.link_transport_driver = &link_transport,
