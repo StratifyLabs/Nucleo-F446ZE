@@ -40,6 +40,7 @@ limitations under the License.
 #include "board_trace.h"
 #include "link_transport.h"
 
+//openocd -f interface/stlink-v2-1.cfg -f target/stm32f4x_stlink.cfg
 
 #define SOS_BOARD_SYSTEM_CLOCK 168000000
 #define SOS_BOARD_PERIPH_CLOCK (SOS_BOARD_SYSTEM_CLOCK/4)
@@ -117,7 +118,7 @@ const sos_board_config_t sos_board_config = {
     .stderr_dev = "/dev/stdio-out",
     .o_sys_flags = SYS_FLAG_IS_STDIO_FIFO | SYS_FLAG_IS_TRACE,
     .sys_name = "Nucleo-F446ZE",
-    .sys_version = "0.4",
+    .sys_version = "0.6",
     .sys_id = "-L2Tsz0P1cEDIywrY2qc",
     .sys_memory_size = SOS_BOARD_SYSTEM_MEMORY_SIZE,
     .start = sos_default_thread,
@@ -243,11 +244,19 @@ const devfs_device_t devfs_list[] = {
     DEVFS_DEVICE("i2c2", mcu_i2c, 2, 0, 0, 0666, USER_ROOT, S_IFCHR),
     DEVFS_DEVICE("i2c3", mcu_i2c, 3, 0, 0, 0666, USER_ROOT, S_IFCHR),
 
+    DEVFS_DEVICE("pio0", mcu_pio, 0, 0, 0, 0666, USER_ROOT, S_IFCHR), //GPIOA
+    DEVFS_DEVICE("pio1", mcu_pio, 1, 0, 0, 0666, USER_ROOT, S_IFCHR), //GPIOB
+    DEVFS_DEVICE("pio2", mcu_pio, 2, 0, 0, 0666, USER_ROOT, S_IFCHR), //GPIOC
+    DEVFS_DEVICE("pio3", mcu_pio, 3, 0, 0, 0666, USER_ROOT, S_IFCHR), //GPIOD
+    DEVFS_DEVICE("pio4", mcu_pio, 4, 0, 0, 0666, USER_ROOT, S_IFCHR), //GPIOE
+    DEVFS_DEVICE("pio5", mcu_pio, 5, 0, 0, 0666, USER_ROOT, S_IFCHR), //GPIOF
+    DEVFS_DEVICE("pio6", mcu_pio, 6, 0, 0, 0666, USER_ROOT, S_IFCHR), //GPIOG
+    DEVFS_DEVICE("pio7", mcu_pio, 7, 0, 0, 0666, USER_ROOT, S_IFCHR), //GPIOH
+
     DEVFS_DEVICE("spi0", mcu_spi, 0, 0, 0, 0666, USER_ROOT, S_IFCHR),
     DEVFS_DEVICE("spi1", mcu_spi, 1, 0, 0, 0666, USER_ROOT, S_IFCHR),
     DEVFS_DEVICE("spi2", mcu_spi, 2, 0, 0, 0666, USER_ROOT, S_IFCHR),
     DEVFS_DEVICE("spi3", mcu_spi, 3, 0, 0, 0666, USER_ROOT, S_IFCHR),
-
 
     DEVFS_DEVICE("tmr0", mcu_tmr, 1, 0, 0, 0666, USER_ROOT, S_IFCHR), //TIM1
     DEVFS_DEVICE("tmr1", mcu_tmr, 1, 0, 0, 0666, USER_ROOT, S_IFCHR), //TIM2
@@ -268,11 +277,11 @@ const devfs_device_t devfs_list[] = {
             DEVFS_DEVICE("eint1", mcu_eint, 1, 0, 0, 0666, USER_ROOT, S_IFCHR),
             DEVFS_DEVICE("eint2", mcu_eint, 2, 0, 0, 0666, USER_ROOT, S_IFCHR),
             DEVFS_DEVICE("eint3", mcu_eint, 3, 0, 0, 0666, USER_ROOT, S_IFCHR),
-            DEVFS_DEVICE("pio0", mcu_pio, 0, 0, 0, 0666, USER_ROOT, S_IFCHR),
-            DEVFS_DEVICE("pio1", mcu_pio, 1, 0, 0, 0666, USER_ROOT, S_IFCHR),
-            DEVFS_DEVICE("pio2", mcu_pio, 2, 0, 0, 0666, USER_ROOT, S_IFCHR),
-            DEVFS_DEVICE("pio3", mcu_pio, 3, 0, 0, 0666, USER_ROOT, S_IFCHR),
-            DEVFS_DEVICE("pio4", mcu_pio, 4, 0, 0, 0666, USER_ROOT, S_IFCHR),
+                DEVFS_DEVICE("pio0", mcu_pio, 0, 0, 0, 0666, USER_ROOT, S_IFCHR),
+                DEVFS_DEVICE("pio1", mcu_pio, 1, 0, 0, 0666, USER_ROOT, S_IFCHR),
+                DEVFS_DEVICE("pio2", mcu_pio, 2, 0, 0, 0666, USER_ROOT, S_IFCHR),
+                DEVFS_DEVICE("pio3", mcu_pio, 3, 0, 0, 0666, USER_ROOT, S_IFCHR),
+                DEVFS_DEVICE("pio4", mcu_pio, 4, 0, 0, 0666, USER_ROOT, S_IFCHR),
             DEVFS_DEVICE("i2c0", mcu_i2c, 0, 0, 0, 0666, USER_ROOT, S_IFCHR),
             DEVFS_DEVICE("i2c1", mcu_i2c, 1, &i2c1_config, 0, 0666, USER_ROOT, S_IFCHR),
             DEVFS_DEVICE("i2c2", mcu_i2c, 2, &i2c2_config, 0, 0666, USER_ROOT, S_IFCHR),
@@ -339,7 +348,7 @@ const fatfs_cfg_t fatfs_cfg = {
 const devfs_device_t mem0 = DEVFS_DEVICE("mem0", mcu_mem, 0, 0, 0, 0666, USER_ROOT, S_IFBLK);
 
 
-const sysfs_t const sysfs_list[] = {
+const sysfs_t sysfs_list[] = {
     APPFS_MOUNT("/app", &mem0, SYSFS_ALL_ACCESS), //the folder for ram/flash applications
     DEVFS_MOUNT("/dev", devfs_list, SYSFS_READONLY_ACCESS), //the list of devices
     //SFFS_MOUNT("/home", &sffs_cfg, SYSFS_ALL_ACCESS), //the stratify file system on external RAM

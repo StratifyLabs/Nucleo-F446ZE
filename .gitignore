@@ -6,3 +6,4 @@
 *.bin
 ./build_*Nucleo-F446ZE*
 cmake_*
+*.user

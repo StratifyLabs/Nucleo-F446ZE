@@ -1,7 +1,7 @@
 {
     "bootsuffix": "_boot",
     "buildprefix": "build_",
-    "change": "Added devices to /dev",
+    "change": "Updates to latest SDK and compiler",
     "changes": {
         "-L2TsyyyTIJlFu11lkA8": {
             "description": "Changing to new cloud format",
@@ -14,6 +14,14 @@
         "-L55ynfDVe6RNVHgxxqL": {
             "description": "Added devices to /dev",
             "version": "0.4"
+        },
+        "-L560c3dZP9mUUOW_1AG": {
+            "description": "Added pio devices to /dev",
+            "version": "0.5"
+        },
+        "-L6TbdoFz7ENRNvjd7gd": {
+            "description": "Updates to latest SDK and compiler",
+            "version": "0.6"
         }
     },
     "description": "This BSP can be used to run Stratify OS on the STM32F Nucleo-F446ZE board.",
@@ -25,5 +33,5 @@
     "tags": "stm32,arm,cortex-m4",
     "type": "StratifyKernel",
     "uid": "QSW7bQHeDqhJEcZ0mxQ5SmEYUSL2",
-    "version": "0.4"
+    "version": "0.6"
 }
