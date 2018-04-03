@@ -1,7 +1,7 @@
 {
     "bootsuffix": "_boot",
     "buildprefix": "build_",
-    "change": "Updates to latest SDK and compiler",
+    "change": "Updated to GCC 6.3.1",
     "changes": {
         "-L2TsyyyTIJlFu11lkA8": {
             "description": "Changing to new cloud format",
@@ -22,6 +22,10 @@
         "-L6TbdoFz7ENRNvjd7gd": {
             "description": "Updates to latest SDK and compiler",
             "version": "0.6"
+        },
+        "-L7eAfsZtHoRxfGu1RVZ": {
+            "description": "Updated to GCC 6.3.1",
+            "version": "0.7"
         }
     },
     "description": "This BSP can be used to run Stratify OS on the STM32F Nucleo-F446ZE board.",
@@ -33,5 +37,5 @@
     "tags": "stm32,arm,cortex-m4",
     "type": "StratifyKernel",
     "uid": "QSW7bQHeDqhJEcZ0mxQ5SmEYUSL2",
-    "version": "0.6"
+    "version": "0.7"
 }

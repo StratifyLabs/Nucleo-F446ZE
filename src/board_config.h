@@ -1,6 +1,6 @@
 /*
 
-Copyright 2011-2016 Tyler Gilbert
+Copyright 2011-2018 Stratify Labs, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,12 +16,17 @@ limitations under the License.
 
 */
 
-#ifndef LINK_TRANSPORT_H_
-#define LINK_TRANSPORT_H_
+#ifndef BOARD_CONFIG_H_
+#define BOARD_CONFIG_H_
 
-#include <sos/link/transport_usb.h>
-extern link_transport_driver_t link_transport;
+#include <device/ffifo.h>
+
+void board_trace_event(void * event);
+
+extern const ffifo_config_t board_trace_config;
+extern ffifo_state_t board_trace_state;
+
+void board_event_handler(int event, void * args); //optional event handler
 
 
-
-#endif /* LINK_TRANSPORT_H_ */
+#endif /* BOARD_CONFIG_H_ */

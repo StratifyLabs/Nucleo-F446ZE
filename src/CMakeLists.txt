@@ -1,9 +1,11 @@
 
 set(SOURCES
   ${SOURCES_PREFIX}/board_config.c
-  ${SOURCES_PREFIX}/board_trace.c
-  ${SOURCES_PREFIX}/board_trace.h
-  ${SOURCES_PREFIX}/link_transport.c
-  ${SOURCES_PREFIX}/link_transport.h
-  ${SOURCES_PREFIX}/stratify_symbols.c
+  ${SOURCES_PREFIX}/board_config.h
+  ${SOURCES_PREFIX}/config.h
+  ${SOURCES_PREFIX}/link_config.c
+  ${SOURCES_PREFIX}/link_config.h
+  ${SOURCES_PREFIX}/mcu_config.c
+  ${SOURCES_PREFIX}/sos_config.c
+  ${SOURCES_PREFIX}/board_symbols.c
   PARENT_SCOPE)

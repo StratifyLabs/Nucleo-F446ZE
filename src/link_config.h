@@ -1,6 +1,6 @@
 /*
 
-Copyright 2011-2016 Tyler Gilbert
+Copyright 2011-2018 Stratify Labs, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,11 +16,12 @@ limitations under the License.
 
 */
 
-#ifndef LINK_TRANSPORT_USB_H_
-#define LINK_TRANSPORT_USB_H_
-
+#ifndef LINK_TRANSPORT_H_
+#define LINK_TRANSPORT_H_
 
 #include <sos/link/transport_usb.h>
 extern link_transport_driver_t link_transport;
 
-#endif /* LINK_TRANSPORT_USB_H_ */
+
+
+#endif /* LINK_TRANSPORT_H_ */
