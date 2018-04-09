@@ -29,7 +29,7 @@ limitations under the License.
 #define SOS_BOARD_SYSTEM_CLOCK 168000000
 #define SOS_BOARD_SYSTEM_MEMORY_SIZE (8192*3)
 #define SOS_BOARD_ID "-L2Tsz0P1cEDIywrY2qc"
-#define SOS_BOARD_VERSION "0.8"
+#define SOS_BOARD_VERSION "0.9"
 #define SOS_BOARD_NAME "Nucleo-F446ZE"
 
 #define SOS_BOARD_USB_RX_BUFFER_SIZE 512

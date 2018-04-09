@@ -1,7 +1,7 @@
 {
     "bootsuffix": "_boot",
     "buildprefix": "build_",
-    "change": "Updated to GCC 6.3.1",
+    "change": "Sync with nucleo144 projects",
     "changes": {
         "-L2TsyyyTIJlFu11lkA8": {
             "description": "Changing to new cloud format",
@@ -37,5 +37,5 @@
     "tags": "stm32,arm,cortex-m4",
     "type": "StratifyKernel",
     "uid": "QSW7bQHeDqhJEcZ0mxQ5SmEYUSL2",
-    "version": "0.7"
+    "version": "0.9"
 }
