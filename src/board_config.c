@@ -59,9 +59,9 @@ void board_event_handler(int event, void * args){
         //start the bootloader on a fatal event
         //mcu_core_invokebootloader(0, 0);
         if( args != 0 ){
-            mcu_debug_printf("Fatal Error %s\n", (const char*)args);
+            mcu_debug_log_error(MCU_DEBUG_SYS, "Fatal Error %s", (const char*)args);
         } else {
-            mcu_debug_printf("Fatal Error unknown\n");
+            mcu_debug_log_error(MCU_DEBUG_SYS, "Fatal Error unknown");
         }
         while(1){
             ;
@@ -72,12 +72,11 @@ void board_event_handler(int event, void * args){
         break;
 
     case MCU_BOARD_CONFIG_EVENT_START_LINK:
-        mcu_debug_user_printf("Start LED %d\n", mcu_config.irq_middle_prio);
+        mcu_debug_log_info(MCU_DEBUG_USER1, "Start LED %d");
         sos_led_startup();
         break;
 
     case MCU_BOARD_CONFIG_EVENT_START_FILESYSTEM:
-        mcu_debug_user_printf("Started %ld apps\n", *((u32*)args));
         break;
     }
 }

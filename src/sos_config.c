@@ -58,7 +58,8 @@ const sos_board_config_t sos_board_config = {
     .socket_api = 0,
     .request = 0,
     .trace_dev = "/dev/trace",
-    .trace_event = SOS_BOARD_TRACE_EVENT
+    .trace_event = SOS_BOARD_TRACE_EVENT,
+    .git_hash = SOS_GIT_HASH
 };
 
 //This declares the task tables required by Stratify OS for applications and threads
@@ -91,6 +92,10 @@ FIFO_DECLARE_CONFIG_STATE(stdio_in, SOS_BOARD_STDIO_BUFFER_SIZE);
 FIFO_DECLARE_CONFIG_STATE(stdio_out, SOS_BOARD_STDIO_BUFFER_SIZE);
 CFIFO_DECLARE_CONFIG_STATE_4(board_fifo, 256);
 
+#if !defined SOS_BOARD_USB_PORT
+#define SOS_BOARD_USB_PORT 0
+#endif
+
 /* This is the list of devices that will show up in the /dev folder.
  */
 const devfs_device_t devfs_list[] = {
@@ -99,8 +104,9 @@ const devfs_device_t devfs_list[] = {
     DEVFS_DEVICE("fifo", cfifo, 0, &board_fifo_config, &board_fifo_state, 0666, SOS_USER_ROOT, S_IFCHR),
     DEVFS_DEVICE("stdio-out", fifo, 0, &stdio_out_config, &stdio_out_state, 0666, SOS_USER_ROOT, S_IFCHR),
     DEVFS_DEVICE("stdio-in", fifo, 0, &stdio_in_config, &stdio_in_state, 0666, SOS_USER_ROOT, S_IFCHR),
-    DEVFS_DEVICE("link-phy-usb", usbfifo, 0, &sos_link_transport_usb_fifo_cfg, &sos_link_transport_usb_fifo_state, 0666, SOS_USER_ROOT, S_IFCHR),
+    DEVFS_DEVICE("link-phy-usb", usbfifo, SOS_BOARD_USB_PORT, &sos_link_transport_usb_fifo_cfg, &sos_link_transport_usb_fifo_state, 0666, SOS_USER_ROOT, S_IFCHR),
     DEVFS_DEVICE("sys", sys, 0, 0, 0, 0666, SOS_USER_ROOT, S_IFCHR),
+    //DEVFS_DEVICE("rtc", mcu_rtc, 0, 0, 0, 0666, SOS_USER_ROOT, S_IFCHR),
 
     //MCU peripherals
     DEVFS_DEVICE("core", mcu_core, 0, 0, 0, 0666, SOS_USER_ROOT, S_IFCHR),

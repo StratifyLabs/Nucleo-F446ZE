@@ -20,6 +20,7 @@ limitations under the License.
 #define BOARD_CONFIG_H_
 
 #include <device/ffifo.h>
+#include <mcu/debug.h>
 
 void board_trace_event(void * event);
 

@@ -23,8 +23,6 @@ limitations under the License.
 #include <mcu/arch.h>
 
 #include "boot_link_config.h"
-#include "board_config.h"
-
 
 const struct __sFILE_fake __sf_fake_stdin;
 const struct __sFILE_fake __sf_fake_stdout;

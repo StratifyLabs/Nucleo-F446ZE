@@ -24,12 +24,13 @@ limitations under the License.
 #include "board_config.h"
 
 //openocd -f interface/stlink-v2-1.cfg -f target/stm32f4x_stlink.cfg
+#define SOS_BOARD_DEBUG_FLAGS (MCU_DEBUG_INFO | MCU_DEBUG_SYS | MCU_DEBUG_DEVICE)
 
 
 #define SOS_BOARD_SYSTEM_CLOCK 168000000
 #define SOS_BOARD_SYSTEM_MEMORY_SIZE (8192*3)
 #define SOS_BOARD_ID "-L2Tsz0P1cEDIywrY2qc"
-#define SOS_BOARD_VERSION "0.9"
+#define SOS_BOARD_VERSION "0.11"
 #define SOS_BOARD_NAME "Nucleo-F446ZE"
 
 #define SOS_BOARD_USB_RX_BUFFER_SIZE 512
@@ -91,6 +92,18 @@ limitations under the License.
 #define SYMBOLS_IGNORE_MQ 1
 #endif
 
+/* Uncomment to add ARM CMSIS DSP libraries to the BSP
+ * 
+ * See [ARM CMSIS Declaration](https://github.com/StratifyLabs/StratifyOS-CMSIS/blob/master/arm_dsp_api_declaration.h)
+ * for more detailed link configuration switches.
+ * 
+ * 
+ */
+//#define SOS_BOARD_ARM_DSP_API_Q7 1
+//#define SOS_BOARD_ARM_DSP_API_Q15 1
+//#define SOS_BOARD_ARM_DSP_API_Q31 1
+//#define SOS_BOARD_ARM_DSP_API_F32 1
+//#define SOS_BOARD_ARM_DSP_CONVERSION_API 1
 
 
 #endif /* CONFIG_H_ */
