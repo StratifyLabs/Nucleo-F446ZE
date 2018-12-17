@@ -1,0 +1,13 @@
+{
+   "description": "This BSP can be used to run Stratify OS on the STM32F Nucleo-F446ZE board.",
+   "github": "https://github.com/StratifyLabs/Nucleo-F446ZE",
+   "name": "Nucleo-F446ZE",
+   "permissions": "public",
+   "publisher": "Stratify Labs, Inc",
+   "tags": "stm32,arm,cortex-m4",
+   "type": "data",
+   "uid": "QSW7bQHeDqhJEcZ0mxQ5SmEYUSL2",
+   "version": "0.9",
+   "hardwaredId": "0x00000008",
+   "documentId": "FFxXbp1ExySM7DaLrBA4"
+}

@@ -6,7 +6,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+	 http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,11 +29,13 @@ limitations under the License.
 #define TRACE_BUFFER_SIZE (sizeof(link_trace_event_t)*TRACE_COUNT)
 static char trace_buffer[TRACE_FRAME_SIZE*TRACE_COUNT];
 const ffifo_config_t board_trace_config = {
-		.count = TRACE_COUNT,
-		.frame_size = sizeof(link_trace_event_t),
-		.buffer = trace_buffer
+	.frame_count = TRACE_COUNT,
+	.frame_size = sizeof(link_trace_event_t),
+	.buffer = trace_buffer
 };
 ffifo_state_t board_trace_state;
+
+extern void SystemClock_Config();
 
 
 void board_trace_event(void * event){
@@ -51,32 +53,36 @@ void board_trace_event(void * event){
 }
 
 void board_event_handler(int event, void * args){
-    switch(event){
-    case MCU_BOARD_CONFIG_EVENT_ROOT_TASK_INIT:
-        break;
+	switch(event){
+		case MCU_BOARD_CONFIG_EVENT_ROOT_TASK_INIT:
+			break;
 
-    case MCU_BOARD_CONFIG_EVENT_ROOT_FATAL:
-        //start the bootloader on a fatal event
-        //mcu_core_invokebootloader(0, 0);
-        if( args != 0 ){
-            mcu_debug_log_error(MCU_DEBUG_SYS, "Fatal Error %s", (const char*)args);
-        } else {
-            mcu_debug_log_error(MCU_DEBUG_SYS, "Fatal Error unknown");
-        }
-        while(1){
-            ;
-        }
-        break;
+		case MCU_BOARD_CONFIG_EVENT_ROOT_FATAL:
+			//start the bootloader on a fatal event
+			//mcu_core_invokebootloader(0, 0);
+			if( args != 0 ){
+				mcu_debug_log_error(MCU_DEBUG_SYS, "Fatal Error %s", (const char*)args);
+			} else {
+				mcu_debug_log_error(MCU_DEBUG_SYS, "Fatal Error unknown");
+			}
+			while(1){
+				;
+			}
+			break;
 
-    case MCU_BOARD_CONFIG_EVENT_START_INIT:
-        break;
+		case MCU_BOARD_CONFIG_EVENT_ROOT_INITIALIZE_CLOCK:
+			SystemClock_Config();
+			break;
 
-    case MCU_BOARD_CONFIG_EVENT_START_LINK:
-        mcu_debug_log_info(MCU_DEBUG_USER1, "Start LED %d");
-        sos_led_startup();
-        break;
+		case MCU_BOARD_CONFIG_EVENT_START_INIT:
+			break;
 
-    case MCU_BOARD_CONFIG_EVENT_START_FILESYSTEM:
-        break;
-    }
+		case MCU_BOARD_CONFIG_EVENT_START_LINK:
+			mcu_debug_log_info(MCU_DEBUG_USER1, "Start LED %d");
+			sos_led_startup();
+			break;
+
+		case MCU_BOARD_CONFIG_EVENT_START_FILESYSTEM:
+			break;
+	}
 }

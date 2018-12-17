@@ -24,41 +24,16 @@ limitations under the License.
 
 
 int kernel_request(int req, void * arg){
+        return -1;
+}
 
-    if( req == SAPI_REQUEST_ARM_DSP_API ){
-        int ret = -1;
-#if SOS_BOARD_ARM_DSP_API_Q7 || SOS_BOARD_ARM_DSP_API_Q15 || SOS_BOARD_ARM_DSP_API_Q31 || SOS_BOARD_ARM_DSP_API_F32 || SOS_BOARD_ARM_DSP_CONVERSION_API
-        sapi_request_arm_dsp_api_t * api = (sapi_request_arm_dsp_api_t *)arg;
-#endif
-
-#if defined SOS_BOARD_ARM_DSP_API_Q7
-        ret = 0;
-        api->api_q7 = &arm_dsp_api_q7;
-#endif
-
-#if defined SOS_BOARD_ARM_DSP_API_Q15
-        ret = 0;
-        api->api_q15 = &arm_dsp_api_q15;
-#endif
-
-#if defined SOS_BOARD_ARM_DSP_API_Q31
-        ret = 0;
-        api->api_q31 = &arm_dsp_api_q31;
-#endif
-
-#if defined SOS_BOARD_ARM_DSP_API_F32
-        ret = 0;
-        api->api_f32 = &arm_dsp_api_f32;
-#endif
-
-#if defined SOS_BOARD_ARM_DSP_CONVERSION_API
-        ret = 0;
-        api->conversion_api = &arm_dsp_conversion_api;
-#endif
-        return ret;
-    }
-
-
-
-    return 0;
+const void * kernel_request_api(u32 request){
+	switch(request){
+		case SAPI_API_REQUEST_ARM_DSP_Q7: return SOS_BOARD_ARM_DSP_API_Q7;
+		case SAPI_API_REQUEST_ARM_DSP_Q15: return SOS_BOARD_ARM_DSP_API_Q15;
+		case SAPI_API_REQUEST_ARM_DSP_Q31: return SOS_BOARD_ARM_DSP_API_Q31;
+		case SAPI_API_REQUEST_ARM_DSP_F32: return SOS_BOARD_ARM_DSP_API_F32;
+		case SAPI_API_REQUEST_ARM_DSP_CONVERSION: return SOS_BOARD_ARM_DSP_CONVERSION_API;
+	}
+	return 0;
 }
