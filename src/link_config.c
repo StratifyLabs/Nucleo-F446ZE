@@ -61,7 +61,7 @@ limitations under the License.
 #endif
 
 
-static link_transport_phy_t link_transport_open(const char * name, int baudrate);
+static link_transport_phy_t link_transport_open(const char * name, const void * options);
 
 link_transport_driver_t link_transport = {
 	.handle = -1,
@@ -90,9 +90,10 @@ const usbd_control_constants_t link_transport_usb_constants = {
 #define link_transport_usb_constants sos_link_transport_usb_constants
 #endif
 
-link_transport_phy_t link_transport_open(const char * name, int baudrate){
+link_transport_phy_t link_transport_open(const char * name, const void * options){
 	usb_attr_t usb_attr;
 	link_transport_phy_t fd;
+	MCU_UNUSED_ARGUMENT(options);
 
 	//set up the USB attributes
 	memset(&(usb_attr.pin_assignment), 0xff, sizeof(usb_pin_assignment_t));

@@ -40,6 +40,9 @@ limitations under the License.
 #include "sl_config.h"
 #include "link_config.h"
 
+#if !defined SOS_BOARD_FLAGS
+#define SOS_BOARD_FLAGS 0
+#endif
 
 //--------------------------------------------Stratify OS Configuration-------------------------------------------------
 const sos_board_config_t sos_board_config = {
@@ -48,7 +51,7 @@ const sos_board_config_t sos_board_config = {
 	.stdin_dev = "/dev/stdio-in" ,
 	.stdout_dev = "/dev/stdio-out",
 	.stderr_dev = "/dev/stdio-out",
-	.o_sys_flags = SYS_FLAG_IS_STDIO_FIFO | SYS_FLAG_IS_TRACE,
+	.o_sys_flags = SYS_FLAG_IS_STDIO_FIFO | SYS_FLAG_IS_TRACE | SOS_BOARD_FLAGS,
 	.sys_name = SL_CONFIG_NAME,
 	.sys_version = SL_CONFIG_VERSION_STRING,
 	.sys_id = SL_CONFIG_DOCUMENT_ID,
