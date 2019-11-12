@@ -5,7 +5,7 @@
 
 void SystemClock_Config(){
 
-	RCC_OscInitTypeDef RCC_OscInitStruct;	
+	RCC_OscInitTypeDef RCC_OscInitStruct;
 	RCC_ClkInitTypeDef RCC_ClkInitStruct;
 	RCC_PeriphCLKInitTypeDef PeriphClkInitStruct;
 

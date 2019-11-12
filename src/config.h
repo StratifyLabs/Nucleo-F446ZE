@@ -24,6 +24,7 @@ limitations under the License.
 #include "board_config.h"
 
 //openocd -f interface/stlink-v2-1.cfg -f target/stm32f4x_stlink.cfg
+//openocd -f interface/stlink-v2-1.cfg -f target/stm32f4x_stlink.cfg -c "program ./Nucleo-F446ZE/build_debug_boot/Nucleo-F446ZE.bin 0x08000000; reset run; exit;"
 #define SOS_BOARD_DEBUG_FLAGS (MCU_DEBUG_INFO | MCU_DEBUG_SYS)
 
 
@@ -146,6 +147,13 @@ limitations under the License.
 #define SOS_BOARD_SPI3_SCK_PIN 3
 #define SOS_BOARD_SPI3_CS_PORT 0xff //Not used
 #define SOS_BOARD_SPI3_CS_PIN 0xff
+
+#define SOS_BOARD_USART2_RX_DMA STM32_DMA1
+#define SOS_BOARD_USART2_RX_DMA_STREAM 5
+#define SOS_BOARD_USART2_RX_DMA_CHANNEL 4
+#define SOS_BOARD_USART2_TX_DMA STM32_DMA1
+#define SOS_BOARD_USART2_TX_DMA_STREAM 6
+#define SOS_BOARD_USART2_TX_DMA_CHANNEL 4
 
 #define SOS_BOARD_SPI1_RX_DMA STM32_DMA2
 #define SOS_BOARD_SPI1_RX_DMA_STREAM 0

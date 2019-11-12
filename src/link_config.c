@@ -71,7 +71,10 @@ link_transport_driver_t link_transport = {
 	.close = sos_link_transport_usb_close,
 	.wait = sos_link_transport_usb_wait,
 	.flush = sos_link_transport_usb_flush,
-	.timeout = 500
+	.timeout = 500,
+	.o_flags = 0, //no checksums -- checksums already happen over USB
+	.transport_read = link1_transport_slaveread,
+	.transport_write = link1_transport_slavewrite
 };
 
 static usbd_control_t m_usb_control;
