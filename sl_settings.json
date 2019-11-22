@@ -7,11 +7,12 @@
    "tags": "stm32,arm,cortex-m4",
    "type": "os",
    "uid": "9cQyOTk3fZXOuMtPyf5j9X4H4b83",
-   "version": "0.10",
+   "version": "0.11",
    "documentId": "FFxXbp1ExySM7DaLrBA4",
    "buildList": {
-      "7nKGut9K5B70LDcohKFi": "0.10"
+      "7nKGut9K5B70LDcohKFi": "0.10",
+      "LwcrxPI9xMdhCGbiHMmi": "0.11"
    },
-   "timestamp": 1545020995,
+   "timestamp": 1573538040,
    "hardwareId": "0x00000008"
 }
