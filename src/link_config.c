@@ -90,7 +90,7 @@ const usbd_control_constants_t link_transport_usb_constants = {
 	.class_event_handler = sos_link_usbd_cdc_event_handler
 };
 #else
-#define link_transport_usb_constants sos_link_transport_usb_constants
+#define link_transport_usb_constants sos_link_transport_usb_link_constants
 #endif
 
 link_transport_phy_t link_transport_open(const char * name, const void * options){
